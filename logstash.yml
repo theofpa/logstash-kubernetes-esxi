@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: logstash-kubernetes-esxi
+spec:
+  template:
+    metadata:
+      labels:
+        app: logstash-kubernetes-esxi
+    spec:
+      containers:
+        - name: logstash-kubernetes-esxi
+          image: theofpa/logstash-kubernetes-esxi
+          ports:
+            - containerPort: 1514
+          imagePullPolicy: Always
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: logstash-kubernetes-esxi
+spec:
+  type: NodePort
+  selector:
+    app: logstash-kubernetes-esxi
+  ports:
+  - protocol: TCP
+    port: 1514
+    targetPort: 1514
